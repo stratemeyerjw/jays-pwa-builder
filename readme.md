@@ -15,6 +15,6 @@
 ## User-Interface Usage
     npm run start
 
-## Issues or Feature Requests
-    email: stratemeyerjw@gmail.com
+## Issues or Commercial License or Feature Requests
+    Please email me at the mail address listed in the LICENSE file.
     
