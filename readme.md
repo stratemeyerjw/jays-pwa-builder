@@ -1,5 +1,4 @@
 # Jay's PWA Builder
-=======
 
 ## Installation
 1. clone the git repo.
