@@ -1,0 +1,9 @@
+{
+    "hostPort": 3325,
+    "portRange": 
+        {
+            "start": 8099,
+            "end": 9000
+        }
+    
+}

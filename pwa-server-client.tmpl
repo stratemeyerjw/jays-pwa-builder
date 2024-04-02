@@ -1,0 +1,52 @@
+class PWAClient {
+    constructor() {
+        this.activeServers = $$activeServers
+        this.projectsDataGrid= null;
+        this.newProjectTextBox = null;
+        this.newProjectButtonSubmit = null;
+    }
+    renderContent(){
+      this.newProjectTextBox = $('#new-projext-text-box').dxTextBox({width:'100%',placeholder: "Enter new project name here."}).dxTextBox('instance')
+       this.newProjectButtonSubmit = $('#new-project-button-submit').dxButton({text: "Create New Project", icon: "save", type:"success",
+      onClick: async ()=>{
+       const projectName = pwaClient.newProjectTextBox.option('value');
+    if (projectName.trim() !== '') {
+        try {
+            await $.post(`/initialize-pwa/${projectName}`);
+            DevExpress.ui.notify("PWA Created","success",3000);
+            setTimeout(()=>{
+                window.location.reload();
+            },5000)
+            // Optionally, you can reset the textbox value after successful initialization
+            pwaClient.newProjectTextBox.option('value', '');
+        } catch (error) {
+            DevExpress.ui.notify("PWA creation failed. " + error.message,"error",3000);
+        }
+    } else {
+        DevExpress.ui.notify("PWA creation failed. Project name cannot be empty. ","error",3000);
+    }
+
+      }
+      }).dxButton('instance')
+      this.projectsDataGrid
+      = $('#project-list').dxDataGrid(
+        {dataSource: this.activeServers.filter(o=>{return o.relativePath !=="/index.html"}).map(o=>{
+            delete o.server;
+            return o;
+        }),
+        hoverStateEnabled: true,
+         onRowClick: function(e) {
+        var rowData = e.data;
+        var port = rowData.port;
+        var relativePath = rowData.relativePath;
+        var url = 'http://localhost:' + port + relativePath;
+        window.open(url, '_blank');
+    }
+        }
+      ).dxDataGrid('instance')
+    }
+}
+$(()=>{
+   window.pwaClient = new PWAClient();
+   window.pwaClient.renderContent();
+})
